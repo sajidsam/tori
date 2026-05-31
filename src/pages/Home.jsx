@@ -130,24 +130,24 @@ const Home = () => {
             <div className="h-9 w-9 md:h-10 md:w-10 border rounded-full overflow-hidden bg-white/10">
               <img src={tori} alt="logo" className="h-full w-full object-cover" />
             </div>
-            <h1 className="text-lg md:text-2xl font-bold tracking-widest">ProjectTori</h1>
+            <h1 className="text-lg md:text-2xl font-bold tracking-widest oswald">Project Tori</h1>
           </div>
 
           {/* desktop menu */}
           <div className="hidden md:flex gap-2 md:gap-4 text-base md:text-lg">
-            <a href="#home" className={` px-4 py-2 rounded-lg transition font-medium ${activeSection === 'home' ? 'active' : ''}`}><span className="relative z-10">Home</span></a>
-            <a href="#about" className={` px-4 py-2 rounded-lg transition font-medium ${activeSection === 'about' ? 'active' : ''}`}><span className="relative z-10">About</span></a>
-            <a href="#team" className={` px-4 py-2 rounded-lg transition font-medium ${activeSection === 'team' ? 'active' : ''}`}><span className="relative z-10">Team</span></a>
-            <a href="#contact" className={` px-4 py-2 rounded-lg transition font-medium ${activeSection === 'contact' ? 'active' : ''}`}><span className="relative z-10">Contact</span></a>
-            <Link to="/classroom" className=" px-4 py-2 rounded-lg transition font-medium"><span className="relative z-10">Classroom</span></Link>
+            <a href="#home" className={`px-2  py-2 rounded-lg transition font-medium ${activeSection === 'home' ? 'active' : ''}`}><span className="relative z-10">Home</span></a>
+            <a href="#about" className={`px-1  py-2 rounded-lg transition font-medium ${activeSection === 'about' ? 'active' : ''}`}><span className="relative z-10">About</span></a>
+            <a href="#team" className={` px-1 py-2 rounded-lg transition font-medium ${activeSection === 'team' ? 'active' : ''}`}><span className="relative z-10">Team</span></a>
+            <a href="#contact" className={` px-1 py-2 rounded-lg transition font-medium ${activeSection === 'contact' ? 'active' : ''}`}><span className="relative z-10">Contact</span></a>
+            <Link to="/classroom" className=" px-1 py-2 rounded-lg transition font-medium"><span className="relative z-10">Classroom</span></Link>
             <button
               onClick={toggleMusic}
-              className="px-4 py-2 rounded-lg bg-cyan-500/20 border border-cyan-400 hover:bg-cyan-500/30 transition flex items-center justify-center"
+              className="px-4 py-2 flex items-center justify-center"
             >
               {isMusicOn ? (
-                <FaVolumeUp className="text-cyan-300 text-lg" />
+                <FaVolumeUp className="text-white  text-lg" />
               ) : (
-                <FaVolumeMute className="text-gray-400 text-lg" />
+                <FaVolumeMute className="text-white text-lg" />
               )}
             </button>
           </div>

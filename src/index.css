@@ -1,6 +1,15 @@
 @import "tailwindcss";
-/* ================= REALISTIC WAVE ANIMATION ================= */
 
+
+
+
+.oswald {
+  font-family: "Oswald", sans-serif;
+  color: white;
+  font-weight: bold;
+}
+
+/* ================= REALISTIC WAVE ANIMATION ================= */
 .wave-mask {
     -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,49V120h1200V49c-95.2,16-168.1,28.8-283.4,28.8C757.2,77.8,662,18,521.1,18C379.7,18,266.3,61.5,133.5,61.5C70.4,61.5,29.3,55.9,0,49z' fill='black'/%3E%3C/svg%3E");
     -webkit-mask-repeat: repeat-x;

@@ -94,16 +94,16 @@ const Home = () => {
 
           {/* desktop menu */}
           <div className="hidden md:flex gap-2 md:gap-4 text-base md:text-lg">
-            <a href="#home" className={`btn-wave px-4 py-2 rounded-lg transition font-medium ${activeSection === 'home' ? 'active' : ''}`}><span className="relative z-10">Home</span></a>
-            <a href="#about" className={`btn-wave px-4 py-2 rounded-lg transition font-medium ${activeSection === 'about' ? 'active' : ''}`}><span className="relative z-10">About</span></a>
-            <a href="#team" className={`btn-wave px-4 py-2 rounded-lg transition font-medium ${activeSection === 'team' ? 'active' : ''}`}><span className="relative z-10">Team</span></a>
-            <a href="#contact" className={`btn-wave px-4 py-2 rounded-lg transition font-medium ${activeSection === 'contact' ? 'active' : ''}`}><span className="relative z-10">Contact</span></a>
-            <Link to="/classroom" className="btn-wave px-4 py-2 rounded-lg transition font-medium"><span className="relative z-10">Classroom</span></Link>
+            <a href="#home" className={` px-4 py-2 rounded-lg transition font-medium ${activeSection === 'home' ? 'active' : ''}`}><span className="relative z-10">Home</span></a>
+            <a href="#about" className={` px-4 py-2 rounded-lg transition font-medium ${activeSection === 'about' ? 'active' : ''}`}><span className="relative z-10">About</span></a>
+            <a href="#team" className={` px-4 py-2 rounded-lg transition font-medium ${activeSection === 'team' ? 'active' : ''}`}><span className="relative z-10">Team</span></a>
+            <a href="#contact" className={` px-4 py-2 rounded-lg transition font-medium ${activeSection === 'contact' ? 'active' : ''}`}><span className="relative z-10">Contact</span></a>
+            <Link to="/classroom" className=" px-4 py-2 rounded-lg transition font-medium"><span className="relative z-10">Classroom</span></Link>
           </div>
 
           {/* mobile menu */}
           <div className="flex items-center gap-3">
-            <button className="btn-wave hidden md:block px-4 py-2 text-sm md:text-base rounded-full bg-cyan-500/20 border border-cyan-400 transition">
+            <button className=" hidden md:block px-4 py-2 text-sm md:text-base rounded-full bg-cyan-500/20 border border-cyan-400 transition">
               <span className="relative z-10">Explore</span>
             </button>
 
@@ -162,7 +162,7 @@ const Home = () => {
                 handleLinkClick();
                 scrollToAbout();
               }}
-              className="btn-wave mt-2 px-4 py-2 rounded-full bg-cyan-500/20 border border-cyan-400 transition"
+              className=" mt-2 px-4 py-2 rounded-full bg-cyan-500/20 border border-cyan-400 transition"
             >
               <span className="relative z-10">Explore</span>
             </button>
@@ -207,11 +207,11 @@ const Home = () => {
             Project <span className="text-cyan-400 animate-pulse">Tori</span>
           </h1>
           <p className="mt-5 text-base sm:text-xl md:text-2xl">
-            Next Generation Underwater ROV System
+            Next Generation Underwater AUV System
           </p>
           <button
             onClick={scrollToAbout}
-            className="btn-wave mt-10 px-8 md:px-12 py-3 md:py-4 rounded-full bg-white text-black hover:scale-110 transition font-bold"
+            className=" mt-10 px-8 md:px-12 py-3 md:py-4 rounded-full bg-white text-black hover:scale-110 transition font-bold"
           >
             <span className="relative z-10">DIVE NOW</span>
           </button>

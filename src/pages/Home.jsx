@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+
 import tori from "../assets/tori-logo.png";
 import tori_transparent from "../assets/ProjectTori.png";
 
@@ -10,12 +11,18 @@ import tanvir from "../assets/team/tanvir.png";
 import nafee from "../assets/team/nafee.png";
 import ContactUs from "./ContactUs";
 
-import { FaFacebookMessenger, FaBars, FaTimes } from "react-icons/fa";
+import { FaFacebookMessenger, FaBars, FaTimes, FaVolumeUp, FaVolumeMute } from "react-icons/fa";
+import { useRef } from "react";
+
+import bgMusic from "../assets/audio/ocean.mp3";
 
 const Home = () => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+
+  const [isMusicOn, setIsMusicOn] = useState(true);
+  const audioRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,6 +44,40 @@ const Home = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    audioRef.current = new Audio(bgMusic);
+    audioRef.current.loop = true;
+    audioRef.current.volume = 0.3;
+
+    const savedMusicState = localStorage.getItem("music");
+
+    if (savedMusicState === "off") {
+      setIsMusicOn(false);
+    } else {
+      audioRef.current.play().catch(() => {
+        console.log("Autoplay blocked by browser");
+      });
+    }
+
+    return () => {
+      audioRef.current?.pause();
+    };
+  }, []);
+
+  const toggleMusic = () => {
+    if (!audioRef.current) return;
+
+    if (isMusicOn) {
+      audioRef.current.pause();
+      localStorage.setItem("music", "off");
+    } else {
+      audioRef.current.play();
+      localStorage.setItem("music", "on");
+    }
+
+    setIsMusicOn(!isMusicOn);
+  };
 
   const teamMembers = [
     {
@@ -99,6 +140,16 @@ const Home = () => {
             <a href="#team" className={` px-4 py-2 rounded-lg transition font-medium ${activeSection === 'team' ? 'active' : ''}`}><span className="relative z-10">Team</span></a>
             <a href="#contact" className={` px-4 py-2 rounded-lg transition font-medium ${activeSection === 'contact' ? 'active' : ''}`}><span className="relative z-10">Contact</span></a>
             <Link to="/classroom" className=" px-4 py-2 rounded-lg transition font-medium"><span className="relative z-10">Classroom</span></Link>
+            <button
+              onClick={toggleMusic}
+              className="px-4 py-2 rounded-lg bg-cyan-500/20 border border-cyan-400 hover:bg-cyan-500/30 transition flex items-center justify-center"
+            >
+              {isMusicOn ? (
+                <FaVolumeUp className="text-cyan-300 text-lg" />
+              ) : (
+                <FaVolumeMute className="text-gray-400 text-lg" />
+              )}
+            </button>
           </div>
 
           {/* mobile menu */}
@@ -118,9 +169,8 @@ const Home = () => {
         </div>
 
         {/* mobile dropdown */}
-        <div className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${
-          isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-        }`}>
+        <div className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+          }`}>
           <div className="bg-black/80 backdrop-blur-md border-t border-white/10 py-4 px-4 flex flex-col gap-3">
             <a
               href="#home"
@@ -150,6 +200,7 @@ const Home = () => {
             >
               <span className="relative z-10">Contact</span>
             </a>
+
             <Link
               to="/classroom"
               onClick={handleLinkClick}
@@ -157,6 +208,7 @@ const Home = () => {
             >
               <span className="relative z-10">Classroom</span>
             </Link>
+
             <button
               onClick={() => {
                 handleLinkClick();
@@ -166,6 +218,15 @@ const Home = () => {
             >
               <span className="relative z-10">Explore</span>
             </button>
+
+            <button
+              onClick={toggleMusic}
+              className="btn-wave text-white transition py-2 px-4 rounded-lg flex items-center gap-2"
+            >
+              {isMusicOn ? <FaVolumeUp /> : <FaVolumeMute />}
+              Music
+            </button>
+
           </div>
         </div>
       </nav>
@@ -182,14 +243,14 @@ const Home = () => {
 
           {/* Submarine swimming between waves */}
           <div className="animate-submarine-x absolute -bottom-8 flex items-center">
-             {/* Submarine Bubbles */}
-             <div className="flex gap-1 absolute -right-6 md:-right-10 opacity-60">
-               <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-white rounded-full animate-bubble-1"></div>
-               <div className="w-2 h-2 md:w-3 md:h-3 bg-white rounded-full animate-bubble-2"></div>
-               <div className="w-1 h-1 md:w-1.5 md:h-1.5 bg-white rounded-full animate-bubble-3"></div>
-             </div>
-             {/* Submarine */}
-             <img src={tori_transparent} alt="submarine" className="w-24 sm:w-28 md:w-36 animate-submarine-y drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)]" />
+            {/* Submarine Bubbles */}
+            <div className="flex gap-1 absolute -right-6 md:-right-10 opacity-60">
+              <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-white rounded-full animate-bubble-1"></div>
+              <div className="w-2 h-2 md:w-3 md:h-3 bg-white rounded-full animate-bubble-2"></div>
+              <div className="w-1 h-1 md:w-1.5 md:h-1.5 bg-white rounded-full animate-bubble-3"></div>
+            </div>
+            {/* Submarine */}
+            <img src={tori_transparent} alt="submarine" className="w-24 sm:w-28 md:w-36 animate-submarine-y drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)]" />
           </div>
 
           <div className="absolute bottom-0 left-0 h-[70%] wave-mask wave-mask-3 bg-gradient-to-b from-cyan-400/80 to-[#00bcd4]" />
@@ -319,7 +380,7 @@ const Home = () => {
         <FaFacebookMessenger size={28} className="text-white" />
       </a>
 
-      <ContactUs/>
+      <ContactUs />
 
       {/* footer */}
       <footer className="bg-[#061826] border-t border-white/10 py-10 px-4 md:px-6">

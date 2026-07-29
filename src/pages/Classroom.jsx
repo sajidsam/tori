@@ -25,13 +25,13 @@ const Classroom = () => {
           </div>
 
           <div className="hidden md:flex gap-2 md:gap-4 text-base md:text-lg">
-            <Link to="/" className="btn-wave px-4 py-2 rounded-lg transition font-medium"><span className="relative z-10">Back to Home</span></Link>
+            <Link to="/" className=" px-4 py-2 rounded-lg transition font-medium"><span className="relative z-10">Back to Home</span></Link>
           </div>
 
           <div className="flex items-center gap-3 md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="btn-wave p-2 rounded-lg bg-cyan-500/20 border border-cyan-400 transition"
+              className=" p-2 rounded-lg bg-cyan-500/20 border border-cyan-400 transition"
             >
               <span className="relative z-10">{isMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}</span>
             </button>

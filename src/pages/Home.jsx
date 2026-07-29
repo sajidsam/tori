@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+
 import tori from "../assets/tori-logo.png";
 import tori_transparent from "../assets/ProjectTori.png";
 
@@ -10,12 +11,18 @@ import tanvir from "../assets/team/tanvir.png";
 import nafee from "../assets/team/nafee.png";
 import ContactUs from "./ContactUs";
 
-import { FaFacebookMessenger, FaBars, FaTimes } from "react-icons/fa";
+import { FaFacebookMessenger, FaBars, FaTimes, FaVolumeUp, FaVolumeMute } from "react-icons/fa";
+import { useRef } from "react";
+
+import bgMusic from "../assets/audio/ocean.mp3";
 
 const Home = () => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+
+  const [isMusicOn, setIsMusicOn] = useState(true);
+  const audioRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,6 +44,40 @@ const Home = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    audioRef.current = new Audio(bgMusic);
+    audioRef.current.loop = true;
+    audioRef.current.volume = 0.3;
+
+    const savedMusicState = localStorage.getItem("music");
+
+    if (savedMusicState === "off") {
+      setIsMusicOn(false);
+    } else {
+      audioRef.current.play().catch(() => {
+        console.log("Autoplay blocked by browser");
+      });
+    }
+
+    return () => {
+      audioRef.current?.pause();
+    };
+  }, []);
+
+  const toggleMusic = () => {
+    if (!audioRef.current) return;
+
+    if (isMusicOn) {
+      audioRef.current.pause();
+      localStorage.setItem("music", "off");
+    } else {
+      audioRef.current.play();
+      localStorage.setItem("music", "on");
+    }
+
+    setIsMusicOn(!isMusicOn);
+  };
 
   const teamMembers = [
     {
@@ -89,21 +130,31 @@ const Home = () => {
             <div className="h-9 w-9 md:h-10 md:w-10 border rounded-full overflow-hidden bg-white/10">
               <img src={tori} alt="logo" className="h-full w-full object-cover" />
             </div>
-            <h1 className="text-lg md:text-2xl font-bold tracking-widest">ProjectTori</h1>
+            <h1 className="text-lg md:text-2xl font-bold tracking-widest oswald">Project Tori</h1>
           </div>
 
           {/* desktop menu */}
           <div className="hidden md:flex gap-2 md:gap-4 text-base md:text-lg">
-            <a href="#home" className={`btn-wave px-4 py-2 rounded-lg transition font-medium ${activeSection === 'home' ? 'active' : ''}`}><span className="relative z-10">Home</span></a>
-            <a href="#about" className={`btn-wave px-4 py-2 rounded-lg transition font-medium ${activeSection === 'about' ? 'active' : ''}`}><span className="relative z-10">About</span></a>
-            <a href="#team" className={`btn-wave px-4 py-2 rounded-lg transition font-medium ${activeSection === 'team' ? 'active' : ''}`}><span className="relative z-10">Team</span></a>
-            <a href="#contact" className={`btn-wave px-4 py-2 rounded-lg transition font-medium ${activeSection === 'contact' ? 'active' : ''}`}><span className="relative z-10">Contact</span></a>
-            <Link to="/classroom" className="btn-wave px-4 py-2 rounded-lg transition font-medium"><span className="relative z-10">Classroom</span></Link>
+            <a href="#home" className={`px-2  py-2 rounded-lg transition font-medium ${activeSection === 'home' ? 'active' : ''}`}><span className="relative z-10">Home</span></a>
+            <a href="#about" className={`px-1  py-2 rounded-lg transition font-medium ${activeSection === 'about' ? 'active' : ''}`}><span className="relative z-10">About</span></a>
+            <a href="#team" className={` px-1 py-2 rounded-lg transition font-medium ${activeSection === 'team' ? 'active' : ''}`}><span className="relative z-10">Team</span></a>
+            <a href="#contact" className={` px-1 py-2 rounded-lg transition font-medium ${activeSection === 'contact' ? 'active' : ''}`}><span className="relative z-10">Contact</span></a>
+            <Link to="/classroom" className=" px-1 py-2 rounded-lg transition font-medium"><span className="relative z-10">Classroom</span></Link>
+            <button
+              onClick={toggleMusic}
+              className="px-4 py-2 flex items-center justify-center"
+            >
+              {isMusicOn ? (
+                <FaVolumeUp className="text-white  text-lg" />
+              ) : (
+                <FaVolumeMute className="text-white text-lg" />
+              )}
+            </button>
           </div>
 
           {/* mobile menu */}
           <div className="flex items-center gap-3">
-            <button className="btn-wave hidden md:block px-4 py-2 text-sm md:text-base rounded-full bg-cyan-500/20 border border-cyan-400 transition">
+            <button className=" hidden md:block px-4 py-2 text-sm md:text-base rounded-full bg-cyan-500/20 border border-cyan-400 transition">
               <span className="relative z-10">Explore</span>
             </button>
 
@@ -118,9 +169,8 @@ const Home = () => {
         </div>
 
         {/* mobile dropdown */}
-        <div className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${
-          isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-        }`}>
+        <div className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+          }`}>
           <div className="bg-black/80 backdrop-blur-md border-t border-white/10 py-4 px-4 flex flex-col gap-3">
             <a
               href="#home"
@@ -150,6 +200,7 @@ const Home = () => {
             >
               <span className="relative z-10">Contact</span>
             </a>
+
             <Link
               to="/classroom"
               onClick={handleLinkClick}
@@ -157,15 +208,25 @@ const Home = () => {
             >
               <span className="relative z-10">Classroom</span>
             </Link>
+
             <button
               onClick={() => {
                 handleLinkClick();
                 scrollToAbout();
               }}
-              className="btn-wave mt-2 px-4 py-2 rounded-full bg-cyan-500/20 border border-cyan-400 transition"
+              className=" mt-2 px-4 py-2 rounded-full bg-cyan-500/20 border border-cyan-400 transition"
             >
               <span className="relative z-10">Explore</span>
             </button>
+
+            <button
+              onClick={toggleMusic}
+              className="btn-wave text-white transition py-2 px-4 rounded-lg flex items-center gap-2"
+            >
+              {isMusicOn ? <FaVolumeUp /> : <FaVolumeMute />}
+              Music
+            </button>
+
           </div>
         </div>
       </nav>
@@ -182,14 +243,14 @@ const Home = () => {
 
           {/* Submarine swimming between waves */}
           <div className="animate-submarine-x absolute -bottom-8 flex items-center">
-             {/* Submarine Bubbles */}
-             <div className="flex gap-1 absolute -right-6 md:-right-10 opacity-60">
-               <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-white rounded-full animate-bubble-1"></div>
-               <div className="w-2 h-2 md:w-3 md:h-3 bg-white rounded-full animate-bubble-2"></div>
-               <div className="w-1 h-1 md:w-1.5 md:h-1.5 bg-white rounded-full animate-bubble-3"></div>
-             </div>
-             {/* Submarine */}
-             <img src={tori_transparent} alt="submarine" className="w-24 sm:w-28 md:w-36 animate-submarine-y drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)]" />
+            {/* Submarine Bubbles */}
+            <div className="flex gap-1 absolute -right-6 md:-right-10 opacity-60">
+              <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-white rounded-full animate-bubble-1"></div>
+              <div className="w-2 h-2 md:w-3 md:h-3 bg-white rounded-full animate-bubble-2"></div>
+              <div className="w-1 h-1 md:w-1.5 md:h-1.5 bg-white rounded-full animate-bubble-3"></div>
+            </div>
+            {/* Submarine */}
+            <img src={tori_transparent} alt="submarine" className="w-24 sm:w-28 md:w-36 animate-submarine-y drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)]" />
           </div>
 
           <div className="absolute bottom-0 left-0 h-[70%] wave-mask wave-mask-3 bg-gradient-to-b from-cyan-400/80 to-[#00bcd4]" />
@@ -207,11 +268,11 @@ const Home = () => {
             Project <span className="text-cyan-400 animate-pulse">Tori</span>
           </h1>
           <p className="mt-5 text-base sm:text-xl md:text-2xl">
-            Next Generation Underwater ROV System
+            Next Generation Underwater AUV System
           </p>
           <button
             onClick={scrollToAbout}
-            className="btn-wave mt-10 px-8 md:px-12 py-3 md:py-4 rounded-full bg-white text-black hover:scale-110 transition font-bold"
+            className=" mt-10 px-8 md:px-12 py-3 md:py-4 rounded-full bg-white text-black hover:scale-110 transition font-bold"
           >
             <span className="relative z-10">DIVE NOW</span>
           </button>
@@ -319,7 +380,7 @@ const Home = () => {
         <FaFacebookMessenger size={28} className="text-white" />
       </a>
 
-      <ContactUs/>
+      <ContactUs />
 
       {/* footer */}
       <footer className="bg-[#061826] border-t border-white/10 py-10 px-4 md:px-6">
